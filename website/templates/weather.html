@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Weather Info</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-light bg-light">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">Weather Info</span>
+        <a class="navbar-brand mb-0 h1" id="logout" href="/logout">Logout</a>
+      </div>
+    </nav>
+
+    <div class="main-content float-right h-100">
+            <div className="container admin-panel-tab my-5 mx-5" >
+                <div className="row">
+                    <div className="col-lg-18 col-md-11 mx-5 my-5">
+                        <div class="col mx-5 my-5 text-right">
+                            <div class="form-group col-sm-10 row my-5 mx-5">
+                                <form  action="/msg" method="POST">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="col-md-6 mb-3">
+                                          {% with messages = get_flashed_messages(with_categories=true) %}
+                                            {% if messages %}
+                                            {% for category, message in messages %}
+                                                {% set message_class = 'alert-danger' %}
+
+                                                {% if category == 'success' %}
+                                                    {% set message_class = 'alert-success' %}
+                                                {% endif %}
+                                                <div class="alert {{ message_class }}">{{ message }}</div>
+                                            {% endfor %}
+                                            {% endif %}
+                                            {% endwith %}
+                                        </div>
+                                    </div>
+                                  <div class="d-flex justify-content-center">
+                                    <div class="col-md-6 mb-3">
+                                      <label for="city" class="form-label">Enter City Name To Add.</label>
+                                      <input type="text" class="form-control" id="city" aria-describedby="emailHelp">
+                                      <button type="submit" class="my-3 btn btn-primary">Add City</button>
+                                    </div>
+                                  </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content float-right h-100">
+            <div className="container admin-panel-tab my-5 mx-5" >
+                <div className="row">
+                    <div className="col-lg-18 col-md-11 mx-5 my-5">
+                        <div class="col mx-5 my-5 text-right">
+                            <div class="form-group col-sm-10 row my-5 mx-5">
+                                {% for weather in weather_data.items %}
+                                  <div class="container my-2">
+                                      <article class="container d-flex justify-content-center">
+                                          <div class="col-sm-6">
+                                              <div class="card">
+                                                <div class="card-body bg-secondary text-white">
+                                                  <h1>{{ weather.city_name }}</h1>
+                                                  <br>
+                                                  <span><h4>Tempereature: {{ weather.temperature }}° F</h4></span>
+                                                  <br>
+                                                  <h5>{{ weather.description }}</h5>
+                                                </div>
+                                              </div>
+                                          </div>
+                                          <div>
+                                              <a href="/delete/{{weather.city_id}}" >
+                                                  <button type="button" class="close" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                              </a>
+                                          </div>
+                                      </article>
+                                  </div>
+                                  {% endfor %}
+                                    <div class="col d-flex justify-content-center">
+                                        {% for page_num in weather_data.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                                          {% if page_num %}
+                                            {% if weather_data.page == page_num %}
+                                              <a class="btn btn-secondary mx-4" href="{{ url_for('web.index_get', page=page_num) }}">{{ page_num }}</a>
+                                            {% else %}
+                                              <a class="btn btn-outline-secondary mx-4" href="{{ url_for('web.index_get', page=page_num) }}">{{ page_num }}</a>
+                                            {% endif %}
+                                          {% else %}
+                                            ...
+                                          {% endif %}
+                                        {% endfor %}
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
+</html>
