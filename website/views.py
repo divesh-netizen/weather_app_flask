@@ -24,7 +24,7 @@ def index_get():
 
     return render_template('weather.html', weather_data=weather_data)
 
-@web.route('/msg', methods=['POST'])
+@web.route('/add/city', methods=['POST'])
 def index_post():
     new_city = request.form.get('city')
 

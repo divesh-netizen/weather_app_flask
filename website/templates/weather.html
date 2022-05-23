@@ -22,7 +22,14 @@
                     <div className="col-lg-18 col-md-11 mx-5 my-5">
                         <div class="col mx-5 my-5 text-right">
                             <div class="form-group col-sm-10 row my-5 mx-5">
-                                <form  action="/msg" method="POST">
+                                <form  action="/add/city" method="POST">
+                                  <div class="d-flex justify-content-center">
+                                    <div class="col-md-6 mb-3">
+                                      <label for="city" class="form-label">Enter City Name To Add.</label>
+                                      <input type="text" name="city" id="city" class="form-control">
+                                      <button type="submit" class="my-3 btn btn-primary">Add City</button>
+                                    </div>
+                                  </div>
                                     <div class="d-flex justify-content-center">
                                         <div class="col-md-6 mb-3">
                                           {% with messages = get_flashed_messages(with_categories=true) %}
@@ -39,13 +46,6 @@
                                             {% endwith %}
                                         </div>
                                     </div>
-                                  <div class="d-flex justify-content-center">
-                                    <div class="col-md-6 mb-3">
-                                      <label for="city" class="form-label">Enter City Name To Add.</label>
-                                      <input type="text" class="form-control" id="city" aria-describedby="emailHelp">
-                                      <button type="submit" class="my-3 btn btn-primary">Add City</button>
-                                    </div>
-                                  </div>
                                 </form>
                             </div>
                         </div>
@@ -88,9 +88,9 @@
                                         {% for page_num in weather_data.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
                                           {% if page_num %}
                                             {% if weather_data.page == page_num %}
-                                              <a class="btn btn-secondary mx-4" href="{{ url_for('web.index_get', page=page_num) }}">{{ page_num }}</a>
+                                              <a class="btn btn-secondary mx-2" href="{{ url_for('web.index_get', page=page_num) }}">{{ page_num }}</a>
                                             {% else %}
-                                              <a class="btn btn-outline-secondary mx-4" href="{{ url_for('web.index_get', page=page_num) }}">{{ page_num }}</a>
+                                              <a class="btn btn-outline-secondary mx-2" href="{{ url_for('web.index_get', page=page_num) }}">{{ page_num }}</a>
                                             {% endif %}
                                           {% else %}
                                             ...
